@@ -1,0 +1,30 @@
+using System.Collections;
+using UnityEngine;
+
+public class SpawnManager : MonoBehaviour
+{
+    public GameObject pickUp;
+    private float xRange = 20;
+    private float zRange = 20;
+
+    private float spawnDelay = 1;
+    private float SpawnRate = 5;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        InvokeRepeating("RandomSpawnPosition", spawnDelay, SpawnRate);
+    }
+
+    void RandomSpawnPosition()
+    {
+        Vector3 spawnPosition = new Vector3(Random.Range(-xRange, xRange), transform.position.y, Random.Range(-zRange, zRange));
+        GameObject newPickUp = Instantiate(pickUp, spawnPosition, Quaternion.identity);
+        StartCoroutine(DestroyAfterSpawn(newPickUp, 6));
+    }
+
+    IEnumerator DestroyAfterSpawn(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(obj);
+    }
+}
