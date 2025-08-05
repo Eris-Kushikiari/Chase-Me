@@ -88,4 +88,5 @@ public class Player : MonoBehaviour
             playerRb.angularDamping = airAngularDrag;
         }
     }
+
 }
