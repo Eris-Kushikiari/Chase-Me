@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class Player : MonoBehaviour
 {
     private Rigidbody playerRb;
-    private float speed = 10;
-    private float rotationSpeed = 3f;
+    private float speed = 5;
+    private float rotationSpeed = 5f;
 
     //water float
     public float underWaterDrag = 3f;
