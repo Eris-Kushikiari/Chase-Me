@@ -16,6 +16,10 @@ public class Player : MonoBehaviour
     public float floatingPower = 15f;
     public float waterLevel = 0f;
     private bool underWater;
+
+    //Player outside boundary
+    private float xRange = 23;
+    private float zRange = 23;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,6 +31,7 @@ public class Player : MonoBehaviour
     {
         PlayerMovement();
         PlayerBuoyancy();
+        PlayerBoundary();
     }
 
     void PlayerMovement()
@@ -86,6 +91,27 @@ public class Player : MonoBehaviour
         {
             playerRb.linearDamping = airDrag;
             playerRb.angularDamping = airAngularDrag;
+        }
+    }
+
+    void PlayerBoundary()
+    {
+        if (transform.position.x > xRange)
+        {
+            transform.position = new Vector3(xRange, transform.position.y, transform.position.z);
+        }
+        else if (transform.position.z > xRange)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, zRange);
+        }
+
+        if (transform.position.x < -xRange)
+        {
+            transform.position = new Vector3(-xRange, transform.position.y, transform.position.z);
+        }
+        else if (transform.position.z < -zRange)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, -xRange);
         }
     }
 
