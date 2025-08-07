@@ -407,7 +407,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 127
   m_IsActive: 1
 --- !u!154 &583331194
 TerrainCollider:
@@ -455,7 +455,7 @@ Terrain:
   m_DrawTreesAndFoliage: 1
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
-  m_ReflectionProbeUsage: 1
+  m_ReflectionProbeUsage: 2
   m_MaterialTemplate: {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
@@ -712,7 +712,7 @@ MonoBehaviour:
   underWaterAngularDrag: 1
   airDrag: 0
   airAngularDrag: 0.05
-  floatingPower: 15
+  floatingPower: 19
   waterLevel: 0.6
 --- !u!1 &1886647759
 GameObject:
