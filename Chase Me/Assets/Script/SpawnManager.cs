@@ -4,8 +4,8 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject pickUp;
-    private float xRange = 20;
-    private float zRange = 20;
+    private float xRange = 23;
+    private float zRange = 23;
 
     private float spawnDelay = 1;
     private float SpawnRate = 5;
