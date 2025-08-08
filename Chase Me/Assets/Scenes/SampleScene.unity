@@ -6023,6 +6023,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7011893348066629264, guid: 252b87949466a714499d534095972e63, type: 3}
+      propertyPath: m_Speed
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7011893348066629264, guid: 252b87949466a714499d534095972e63, type: 3}
+      propertyPath: m_Acceleration
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7011893348066629264, guid: 252b87949466a714499d534095972e63, type: 3}
+      propertyPath: m_AngularSpeed
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 8317794524169972283, guid: 252b87949466a714499d534095972e63, type: 3}
       propertyPath: player
       value: 
