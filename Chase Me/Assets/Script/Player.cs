@@ -8,15 +8,6 @@ public class Player : MonoBehaviour
     private float speed = 5;
     private float rotationSpeed = 5f;
 
-    //water float
-    public float underWaterDrag = 3f;
-    public float underWaterAngularDrag = 1f;
-    public float airDrag = 0f;
-    public float airAngularDrag = 0.05f;
-    public float floatingPower = 15f;
-    public float waterLevel = 0f;
-    private bool underWater;
-
     //Player outside boundary
     private float xRange = 23;
     private float zRange = 23;
@@ -30,7 +21,6 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         PlayerMovement();
-        PlayerBuoyancy();
         PlayerBoundary();
     }
 
@@ -60,39 +50,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    void PlayerBuoyancy()
-    {
-        float difference = transform.position.y - waterLevel;
-
-        if (difference < 0)
-        {
-            playerRb.AddForceAtPosition(Vector3.up * floatingPower * Mathf.Abs(difference), transform.position, ForceMode.Force);
-            if (!underWater)
-            {
-                underWater = true;
-                SwitchState(true);
-            }
-        }
-        else if (underWater)
-        {
-            underWater = false;
-            SwitchState(false);
-        }
-    }
-
-    void SwitchState(bool isUnderWater)
-    {
-        if (isUnderWater)
-        {
-            playerRb.linearDamping = underWaterDrag;
-            playerRb.angularDamping = underWaterAngularDrag;
-        }
-        else
-        {
-            playerRb.linearDamping = airDrag;
-            playerRb.angularDamping = airAngularDrag;
-        }
-    }
 
     void PlayerBoundary()
     {
