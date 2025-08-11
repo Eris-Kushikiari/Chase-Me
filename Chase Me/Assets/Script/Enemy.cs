@@ -1,4 +1,5 @@
 using Mono.Cecil.Cil;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -10,6 +11,11 @@ public class Enemy : MonoBehaviour
 
     private float xRange = 23;
     private float zRange = 23;
+
+    public bool isGameOver;
+
+    //text
+    public GameObject loseText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -49,7 +55,17 @@ public class Enemy : MonoBehaviour
         }
     }
 
-   
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Destroy(other.gameObject);
+            loseText.SetActive(true);
+            isGameOver = true;
+        }
+    }
+
+
 
 
 }

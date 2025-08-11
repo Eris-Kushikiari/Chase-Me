@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 
 public class Player : MonoBehaviour
 {
@@ -22,7 +23,6 @@ public class Player : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         score = 0;
-        winText.SetActive(false);
 
 
         SetScoreText();
@@ -79,6 +79,7 @@ public class Player : MonoBehaviour
             score = score + 1;
             SetScoreText();
         }
+
     }
 
     public void SetScoreText()
@@ -91,7 +92,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+
+
 
 
     void PlayerBoundary()
@@ -113,6 +115,11 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, -xRange);
         }
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
 
 }
