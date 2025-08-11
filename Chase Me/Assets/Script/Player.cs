@@ -1,20 +1,31 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
     private Rigidbody playerRb;
     private float speed = 5;
-    private float rotationSpeed = 5f;
+    private float rotationSpeed = 100f;
 
     //Player outside boundary
     private float xRange = 23;
     private float zRange = 23;
+
+    //Score
+    private int score;
+    public TextMeshProUGUI scoreText;
+    public GameObject winText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        score = 0;
+        winText.SetActive(false);
+
+
+        SetScoreText();
     }
 
     // Update is called once per frame
@@ -26,20 +37,38 @@ public class Player : MonoBehaviour
 
     void PlayerMovement()
     {
-        float horinzontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = 0f;
 
-        Vector3 movement = new Vector3(horinzontalInput, 0f, verticalInput);
-        Vector3 moveDirection = movement.normalized;
-
-        playerRb.linearVelocity = moveDirection * speed + new Vector3(0, playerRb.linearVelocity.y, 0);
-
-        //make the player face to its movement direction
-        if (moveDirection.magnitude > 0.1f)
+        //  PC controls
+        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            horizontalInput = Input.GetAxis("Horizontal");
         }
+
+        //  Mobile controls
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+
+                if (touch.position.x < Screen.width / 2)
+                {
+                    horizontalInput = -1f; // Left side turn left
+                }
+                else
+                {
+                    horizontalInput = 1f; // Right side turn right
+                }
+            }
+        }
+
+        // Rotate player
+        transform.Rotate(Vector3.up * horizontalInput * rotationSpeed * Time.deltaTime);
+
+        // Always move forward
+        Vector3 forwardMovement = transform.forward * speed;
+        playerRb.linearVelocity = new Vector3(forwardMovement.x, playerRb.linearVelocity.y, forwardMovement.z);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -47,8 +76,22 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("PickUp"))
         {
             Destroy(other.gameObject);
+            score = score + 1;
+            SetScoreText();
         }
     }
+
+    public void SetScoreText()
+    {
+        scoreText.text = "Anchor: " + score.ToString();
+
+        if (score >= 10)
+        {
+            winText.SetActive(true);
+        }
+    }
+
+    
 
 
     void PlayerBoundary()
