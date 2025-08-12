@@ -37,6 +37,9 @@ public class Player : MonoBehaviour
 
     void PlayerMovement()
     {
+        if (GameManager.Instance.hasWon)
+            return;
+
         float horizontalInput = 0f;
 
         //  PC controls
@@ -89,10 +92,9 @@ public class Player : MonoBehaviour
         if (score >= 10)
         {
             winText.SetActive(true);
+            GameManager.Instance.WinGame();
         }
     }
-
-
 
 
 

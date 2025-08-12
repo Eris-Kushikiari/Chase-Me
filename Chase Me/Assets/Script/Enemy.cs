@@ -25,13 +25,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player != null)
-        {
-            agent.SetDestination(player.position);
-        }
-
+        ChasePlayer();
         EnemyBoundary();
-
     }
 
     void EnemyBoundary()
@@ -62,6 +57,18 @@ public class Enemy : MonoBehaviour
             Destroy(other.gameObject);
             loseText.SetActive(true);
             isGameOver = true;
+        }
+    }
+
+    void ChasePlayer()
+    {
+        if (!GameManager.Instance.hasWon)
+        {
+            agent.SetDestination(player.position);
+        }
+        else
+        {
+            agent.ResetPath();
         }
     }
 

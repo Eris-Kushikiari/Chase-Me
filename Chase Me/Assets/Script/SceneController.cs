@@ -10,8 +10,4 @@ public class SceneController : MonoBehaviour
         instuctionPanel.SetActive(true);
     }
 
-    public void ContinueButton()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
 }

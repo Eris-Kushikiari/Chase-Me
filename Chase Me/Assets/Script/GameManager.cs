@@ -12,11 +12,16 @@ public class GameManager : MonoBehaviour
     public Image gameOver;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI collectedAnchor;
+
+    public static GameManager Instance;
+    public bool hasWon =false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         enemyScript = GameObject.Find("Enemy").GetComponent<Enemy>();
         playerScript = GameObject.Find("Player").GetComponent<Player>();
+
+        Instance = this; // to make it accessible from anywhere
     }
 
     // Update is called once per frame
@@ -28,6 +33,11 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         if (enemyScript.isGameOver)
+        {
+            StartCoroutine(DelayGameOverScreen(3));
+            scoreText.gameObject.SetActive(false);
+        }
+        else if (hasWon == true)
         {
             StartCoroutine(DelayGameOverScreen(3));
             scoreText.gameObject.SetActive(false);
@@ -60,5 +70,10 @@ public class GameManager : MonoBehaviour
         #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
         #endif
+    }
+
+    public void WinGame()
+    {
+        hasWon = true;
     }
 }
