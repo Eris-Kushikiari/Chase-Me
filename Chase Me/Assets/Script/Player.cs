@@ -7,6 +7,15 @@ using Unity.VisualScripting;
 public class Player : MonoBehaviour
 {
     private Rigidbody playerRb;
+    private Enemy enemyScript;
+    [SerializeField] private AudioSource waterAudio;
+    [SerializeField] private AudioSource engineAudio;
+    [SerializeField] private AudioSource pickUpAudio;
+    [SerializeField] private AudioSource winAudio;
+    public AudioClip waterSplash;
+    public AudioClip engine;
+    public AudioClip pickUpSound;
+    public AudioClip winSound;
     private float speed = 5;
     private float rotationSpeed = 100f;
 
@@ -22,7 +31,41 @@ public class Player : MonoBehaviour
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        enemyScript = GameObject.Find("Enemy").GetComponent<Enemy>();
         score = 0;
+
+        AudioSource[] sources = GetComponents<AudioSource>();
+        if (sources.Length >= 2)
+        {
+            engineAudio = sources[0];
+            waterAudio = sources[1];
+        }
+        else
+        {
+            Debug.LogError("Player is missing one or both AudioSources!");
+        }
+
+        if (!enemyScript.isGameOver)
+        {
+            if (!engineAudio.isPlaying)
+            {
+                engineAudio.clip = engine;
+                engineAudio.loop = true;
+                engineAudio.Play();
+            }
+
+            if (!waterAudio.isPlaying)
+            {
+                waterAudio.clip = waterSplash;
+                waterAudio.loop = true;
+                waterAudio.Play();
+            }
+        }
+        else
+        {
+            engineAudio.Stop();
+            waterAudio.Stop();
+        }
 
 
         SetScoreText();
@@ -72,6 +115,7 @@ public class Player : MonoBehaviour
         // Always move forward
         Vector3 forwardMovement = transform.forward * speed;
         playerRb.linearVelocity = new Vector3(forwardMovement.x, playerRb.linearVelocity.y, forwardMovement.z);
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -81,6 +125,7 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject);
             score = score + 1;
             SetScoreText();
+            pickUpAudio.PlayOneShot(pickUpSound);
         }
 
     }
@@ -93,6 +138,7 @@ public class Player : MonoBehaviour
         {
             winText.SetActive(true);
             GameManager.Instance.WinGame();
+            winAudio.PlayOneShot(winSound);
         }
     }
 
