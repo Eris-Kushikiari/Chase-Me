@@ -85,27 +85,34 @@ public class Player : MonoBehaviour
 
         float horizontalInput = 0f;
 
-        //  PC controls
-        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+        // For PC (Keyboard or Mouse in WebGL)
+        if (Input.GetAxis("Horizontal") != 0)
         {
             horizontalInput = Input.GetAxis("Horizontal");
         }
 
-        //  Mobile controls
-        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+        // For Touch (WebGL supports this)
+        if (Input.touchCount > 0)
         {
-            if (Input.touchCount > 0)
+            Touch touch = Input.GetTouch(0);
+            if (touch.position.x < Screen.width / 2)
             {
-                Touch touch = Input.GetTouch(0);
-
-                if (touch.position.x < Screen.width / 2)
-                {
-                    horizontalInput = -1f; // Left side turn left
-                }
-                else
-                {
-                    horizontalInput = 1f; // Right side turn right
-                }
+                horizontalInput = -1f; // Left
+            }
+            else
+            {
+                horizontalInput = 1f; // Right
+            }
+        }
+        else if (Input.GetMouseButton(0)) // Mouse click for browsers
+        {
+            if (Input.mousePosition.x < Screen.width / 2)
+            {
+                horizontalInput = -1f; // Left
+            }
+            else
+            {
+                horizontalInput = 1f; // Right
             }
         }
 
@@ -115,7 +122,6 @@ public class Player : MonoBehaviour
         // Always move forward
         Vector3 forwardMovement = transform.forward * speed;
         playerRb.linearVelocity = new Vector3(forwardMovement.x, playerRb.linearVelocity.y, forwardMovement.z);
-        
     }
 
     private void OnTriggerEnter(Collider other)

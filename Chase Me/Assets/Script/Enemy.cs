@@ -1,8 +1,5 @@
-using Mono.Cecil.Cil;
-using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.EventSystems;
 
 public class Enemy : MonoBehaviour
 {
